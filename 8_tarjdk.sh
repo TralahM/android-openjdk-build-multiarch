@@ -7,7 +7,7 @@ if [[ "$BUILD_IOS" != "1" ]]; then
 unset AR AS CC CXX LD OBJCOPY RANLIB STRIP CPPFLAGS LDFLAGS
 git clone https://github.com/termux/termux-elf-cleaner || true
 cd termux-elf-cleaner
-mkdir build
+mkdir build || true
 cd build
 export CFLAGS=-D__ANDROID_API__=${API}
 cmake ..
@@ -35,7 +35,7 @@ cp -rv jre_override/lib/* jreout/lib/ || true
 cd jreout
 
 # Strip in place all .so files thanks to the ndk
-find ./ -name '*.so' -execdir ${TOOLCHAIN}/bin/llvm-strip {} \;
+find ./ -name '*.so' -exec ${TOOLCHAIN}/bin/llvm-strip {} \;
 
 
 tar cJf ../jre${TARGET_VERSION}-${TARGET_SHORT}-`date +%Y%m%d`-${JDK_DEBUG_LEVEL}.tar.xz .

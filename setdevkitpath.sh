@@ -12,12 +12,12 @@ fi
 # Local build with docker only
 if [[ -z "$CI" ]]
 then
-  update-java-alternatives -s java-1.${TARGET_VERSION}*
+  update-java-alternatives -s java-1.${TARGET_VERSION}* || true
 fi
 
 if [[ -z "$BUILD_FREETYPE_VERSION" ]]
 then
-  export BUILD_FREETYPE_VERSION="2.10.0"
+  export BUILD_FREETYPE_VERSION="2.10.4"
 fi
 
 if [[ -z "$JDK_DEBUG_LEVEL" ]]
@@ -73,7 +73,7 @@ export ANDROID_INCLUDE=$TOOLCHAIN/sysroot/usr/include
 # If I'm right it should only need the dummy libs
 export CPPFLAGS="-I$ANDROID_INCLUDE -I$ANDROID_INCLUDE/$TARGET" # -I/usr/include -I/usr/lib
 export CPPFLAGS=""
-export LDFLAGS=""
+export LDFLAGS="-fPIE -pie"
 
 # Underlying compiler called by the wrappers
 export thecc=$TOOLCHAIN/bin/${TARGET}${API}-clang
