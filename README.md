@@ -1,8 +1,8 @@
-# mobile-openjdk8-build-multiarch 
+# mobile-openjdk8-build-multiarch
 
 Based on http://openjdk.java.net/projects/mobile/android.html
 
-## Building 
+## Building
 
 ### Setup
 #### Android
@@ -55,29 +55,71 @@ Based on http://openjdk.java.net/projects/mobile/android.html
 	</table>
 
 ### Run in this directory:
-```
+
+```sh
 export BUILD_IOS=1 # only when targeting iOS, default is 0 (target Android)
 
 export BUILD_FREETYPE_VERSION=[2.6.2/.../2.10.4] # default: 2.10.4
 export JDK_DEBUG_LEVEL=[release/fastdebug/debug] # default: release
 export JVM_VARIANTS=[client/server] # default: client (aarch32), server (other architectures)
+export NDK_VERSION=[r25c/.../r10e]
+```
 
-# Setup NDK, run once (Android only)
-./extractndk.sh
-./maketoolchain.sh 
+#### 1 Setup Target JDK and Target NDK by calling the arch specific script
 
-# Get CUPS, Freetype and build Freetype
-./getlibs.sh
-./buildlibs.sh
+(`1_ci_build_arch_[aarch32|aarch64|x86|x86_64].sh`) for your desired target.
 
-# Clone JDK, run once
-./clonejdk.sh
+```sh
+### (1_ci_build_arch_[aarch32|aarch64|x86|x86_64].sh)
+. 1_ci_build_arch_aarch32.sh # for arm
+. 1_ci_build_arch_aarch64.sh
+. 1_ci_build_arch_x86.sh # for i686
+. 1_ci_build_arch_x86_64.sh
+```
 
-# Configure JDK and build, if no configuration is changed, run makejdkwithoutconfigure.sh instead
-./buildjdk.sh
+#### 2 Download and Setup NDK, run once (Android only)
 
-# Pack the built JDK
-./removejdkdebuginfo.sh
-./tarjdk.sh
+```sh
+. setdevkitpath.sh
+wget -nc -nv -O android-ndk-$NDK_VERSION-linux-x86_64.zip "https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux.zip"
+unzip -q android-ndk-$NDK_VERSION-linux-x86_64.zip
+```
+
+#### 3 Get CUPS, Freetype
+
+```sh
+./3_getlibs.sh
+```
+
+#### 4 Build the libs
+
+```sh
+./4_buildlibs.sh
+```
+
+#### 5 Clone JDK, run once
+
+```sh
+./5_clonejdk.sh
+```
+
+#### 6 Configure JDK and build,
+
+If no configuration is changed, run `makejdkwithoutconfigure.sh` instead
+
+```sh
+./6_buildjdk.sh
+```
+
+#### 7 Remove/Strip JDK debug info
+
+```sh
+./7_removejdkdebuginfo.sh
+```
+
+#### 8 Pack the built JDK
+
+```sh
+./8_tarjdk.sh
 ```
 
