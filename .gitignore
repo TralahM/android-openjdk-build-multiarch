@@ -19,3 +19,5 @@ ios-missing-include/Xm
 dizout
 jreout
 jdkout
+*.tar.xz
+termux-elf-cleaner
