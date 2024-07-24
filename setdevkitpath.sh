@@ -12,7 +12,7 @@ fi
 # Local build with docker only
 if [[ -z "$CI" ]]
 then
-  update-java-alternatives -s java-1.${TARGET_VERSION}* || true
+  update-java-alternatives -s java-1.${TARGET_VERSION}* || sudo archlinux-java set java-${TARGET_VERSION}-openjdk || true
 fi
 
 if [[ -z "$BUILD_FREETYPE_VERSION" ]]
