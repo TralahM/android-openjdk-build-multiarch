@@ -44,10 +44,10 @@ else
   platform_args="--with-toolchain-type=clang SDKNAME=iphoneos"
   # --disable-precompiled-headers
   AUTOCONF_x11arg="--with-x=/opt/X11/include/X11 --prefix=/usr/lib"
-  sameflags="-arch arm64 -isysroot $thesysroot -miphoneos-version-min=14.0 -DHEADLESS=1 -I$PWD/ios-missing-include -Wno-implicit-function-declaration"
+  sameflags="-arch arm64 -DHEADLESS=1 -I$PWD/ios-missing-include -Wno-implicit-function-declaration"
   export CFLAGS+=" $sameflags"
-  export CXXFLAGS="$sameflags"
-  export LDFLAGS+=" -miphoneos-version-min=14.0"
+  export LDFLAGS+=" -arch arm64"
+  export BUILD_SYSROOT_CFLAGS="-isysroot ${themacsysroot}"
 
   HOMEBREW_NO_AUTO_UPDATE=1 brew install ldid xquartz
 fi
